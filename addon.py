@@ -34,6 +34,7 @@ class Plugin(object):
         self.apiversion = addon.getSetting("apiversion")
         self.insecure = addon.getSetting("insecure") == "true"
         self.legacyauth = addon.getSetting("legacyauth") == "true"
+        self.escapehtml = addon.getSetting("escapehtml") == "true"
 
         self.random_count = addon.getSetting("random_count")
         self.bitrate = addon.getSetting("bitrate")
@@ -374,7 +375,10 @@ class Plugin(object):
         Converts html encoding into unicode
         """
 
-        return HTMLParser().unescape(str(name)).encode('utf-8')
+        if self.escapehtml:
+            return HTMLParser().unescape(str(name)).encode('utf-8')
+        else:
+            return name
 
 def main():
     """
